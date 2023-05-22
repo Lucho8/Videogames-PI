@@ -1,0 +1,52 @@
+.navBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #113f67;
+    padding: 10px 20px;
+  }
+  
+  .navLink {
+    text-decoration: none;
+  }
+  
+  .button {
+    background-color: #38598b;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-right: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+  }
+  
+  .button:hover {
+    transform: translateY(-5px);
+  }
+  
+  .searchBar {
+    flex-grow: 1;
+    text-align: center;
+  }
+  
+  .searchInput {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  
+  .searchButton {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+  }
+  
+  .searchButton:hover {
+    transform: translateY(-5px);
+  }

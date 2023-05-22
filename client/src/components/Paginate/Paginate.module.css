@@ -1,0 +1,40 @@
+.paginationContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -20px; /* Agrega un margen superior negativo */
+    background-color: grey;
+    padding: 10px;
+  }
+  
+  .pageButton {
+    background-color: #113f67;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .pageButton:hover {
+    background-color: #ddd;
+  }
+  
+  .pageNumber {
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .currentPageNumber {
+    background-color: #333;
+    color: #fff;
+  }
