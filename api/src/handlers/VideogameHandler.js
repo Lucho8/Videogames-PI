@@ -11,20 +11,16 @@ const cleanArray = (arr) =>
             image:game.background_image,
             releaseDate:game.released,
             platforms:game.parent_platforms.map((platform) => platform.platform.name),
+            genres:game.genres.map((genre) => genre.name),
             rating:game.rating,
-            created:false
+            created:false,
         }
     })
 
 
 
-// const createVideogame = async (name,description,platforms,image,releaseDate,rating) => {
-//     const newVideogame = await Videogame.create({name,description,platforms,image,releaseDate,rating})
-//     return newVideogame
-// }
-
 const createVideogame = async (name,description,platforms,image,releaseDate,rating, genres) => {
-    // Crear el nuevo videojuego
+    // Crea el nuevo videojuego
     const newVideogame = await Videogame.create({
         name,
         description,
@@ -34,7 +30,7 @@ const createVideogame = async (name,description,platforms,image,releaseDate,rati
         rating
     });
 
-    // Verificar que los géneros existen y agregarlos a la tabla de asociación
+    // Verificamos que los géneros existen y agregarlos a la tabla de asociación
     if (genres && genres.length > 0) {
         const genresToAdd = await Promise.all(genres.map(async (genre) => {
         const genreInstance = await Genre.findOne({ where: { name: genre } });
@@ -46,13 +42,30 @@ const createVideogame = async (name,description,platforms,image,releaseDate,rati
     await newVideogame.addGenres(genresToAdd);
     }
     return newVideogame;
+    
 };
 
 
 const getGameByid = async (id,source) => {
     if (source === 'bdd') {
-        const game = await Videogame.findByPk(id)
-        return game
+        const game = await Videogame.findByPk(id, {
+            include: [{
+                model: Genre,
+                as: 'Genres',
+            }],
+        });
+    
+        if (!game) {
+            throw Error('There is no Game with that ID')
+        }
+    
+        const { Genres, ...rest } = game.toJSON();
+        const gameWithGenres = {
+            ...rest,
+            genres: Genres.map((genre) => genre.name),
+        };
+    
+        return gameWithGenres;
     }
         const { data } = await axios(`${process.env.URL}/games/${id}?key=${process.env.API_KEY}`);
             const game =  {
@@ -62,23 +75,48 @@ const getGameByid = async (id,source) => {
                 image:data.background_image,
                 releaseDate:data.released,
                 platforms:data.parent_platforms.map((platform) => platform.platform.name),
+                genres:data.genres.map((genre) => genre.name),
                 rating:data.rating,
                 created:false
             }
+        if (!game) {
+            throw Error('There is no Game with that ID')
+        }
         return game
 }
 
 const getAllgames = async () => {
 
-    const databaseVideogames  = await Videogame.findAll()
+    const databaseVideogames = await Videogame.findAll({
+        include: [{
+        model: Genre,
+        as: 'Genres',
+        }],
+    });
 
-    const apiVideogamesRaw = (
-        await axios.get(`${process.env.URL}/games?key=${process.env.API_KEY}`)
-    ).data.results
+    const databaseVideogamesWithGenres = databaseVideogames.map((videogame) => {
+        const { Genres, ...rest } = videogame.toJSON();
+        return {
+            ...rest,
+            genres: Genres.map((genre) => genre.name),
+        };
+    });
+
+    const pageSize = 40; // Cantidad de resultados por página
+    const totalPages = 3; // Cantidad total de páginas que quieres obtener (en este caso, 5 páginas con 20 resultados cada una)
+
+    const apiVideogamesRaw = [];
+
+    for (let page = 1; page <= totalPages; page++) {
+    const response = await axios.get(`${process.env.URL}/games?key=${process.env.API_KEY}&page=${page}&page_size=${pageSize}`);
+    const results = response.data.results;
+    apiVideogamesRaw.push(...results);
+    }
 
         const apiVideogames = cleanArray(apiVideogamesRaw)
 
-        return [...databaseVideogames , ...apiVideogames]
+
+    return [...databaseVideogamesWithGenres , ...apiVideogames]
 
 }
 
@@ -100,7 +138,13 @@ const getVideogameByName = async (name) => {
 
     const apiVideogames = cleanArray(apiVideogamesRaw);
 
-    return [...databaseVideogames, ...apiVideogames.slice(0, apiVideogamesLimit)];
+    const allGames = [...databaseVideogames, ...apiVideogames.slice(0, apiVideogamesLimit)];
+    console.log(allGames);
+    if (!allGames) {
+        throw  Error (`There are no games with the name ${name}`)
+    }
+
+    return allGames
 };
 
 
