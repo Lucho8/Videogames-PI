@@ -9,6 +9,10 @@ import { Routes, Route } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import {getAllVideogames,getVideogameByName,getAllGenres} from './redux/actions'
 
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:3001'
+
+
 function App() {
   const dispatch = useDispatch();
 

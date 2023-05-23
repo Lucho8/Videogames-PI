@@ -4,7 +4,7 @@ import {GET_ALL_VIDEOGAMES,GET_VIDEOGAME_BY_NAME,RESET_VIDEOGAMES,GET_ALL_GENRES
 import axios from 'axios';
 
 export const getAllVideogames = () => {
-    const endpoint = 'http://localhost:3001/videogames'
+    const endpoint = '/videogames'
     return async (dispatch) => {
         try {
             const {data}= await axios(endpoint)
@@ -24,7 +24,7 @@ export const getAllVideogames = () => {
 
 
 export const getVideogameByName = (name) => {
-    const endpoint = `http://localhost:3001/videogames?name=${name}`
+    const endpoint = `/videogames?name=${name}`
     return async (dispatch) => {
         try {
             const {data}= await axios(endpoint)
@@ -44,7 +44,7 @@ export const getVideogameByName = (name) => {
 }
 
 export const getAllGenres = () => {
-    const endpoint = `http://localhost:3001/genres`
+    const endpoint = `/genres`
     return async (dispatch) => {
         try {
             const {data}= await axios(endpoint)
@@ -63,7 +63,7 @@ export const getAllGenres = () => {
 }
 
 export const postVideogame = (game) => {
-    const endpoint = 'http://localhost:3001/videogames'
+    const endpoint = '/videogames'
     return async (dispatch) => {
         try {
             const {data} = await axios.post(endpoint,game);
@@ -74,7 +74,7 @@ export const postVideogame = (game) => {
         } catch (error) {
             return alert('Error creating the Videogame!')
         }
-}
+    }
 }
 
 export const filterVideogameBySource = (Source) => {
