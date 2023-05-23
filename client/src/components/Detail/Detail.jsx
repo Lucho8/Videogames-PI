@@ -11,7 +11,7 @@ const Detail = () => {
     useEffect(() => {
       const fetchData = async () => {
           try {
-              const { data } = await axios(`http://localhost:3001/videogames/${id}`);
+              const { data } = await axios(`/videogames/${id}`);
               if (data.name) {
                   setVideogameDetail(data);
               }
