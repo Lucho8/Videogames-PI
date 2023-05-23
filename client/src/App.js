@@ -10,8 +10,8 @@ import { useDispatch } from 'react-redux';
 import {getAllVideogames,getVideogameByName,getAllGenres} from './redux/actions'
 
 import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:3001'
-
+///axios.defaults.baseURL = 'http://localhost:3001'
+axios.defaults.baseURL = 'https://videogames-pi-production-91ab.up.railway.app'
 
 function App() {
   const dispatch = useDispatch();
