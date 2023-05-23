@@ -1,5 +1,5 @@
 import {GET_ALL_VIDEOGAMES,GET_VIDEOGAME_BY_NAME,RESET_VIDEOGAMES,GET_ALL_GENRES,GET_VIDEOGAME_SOURCE,GET_VIDEOGAME_BY_GENRE,ORDER_VIDEOGAME_BY_NAME,
-        ORDER_VIDEOGAME_BY_RATING,POST_VIDEOGAME,
+        ORDER_VIDEOGAME_BY_RATING,POST_VIDEOGAME,RESET_VIDEOGAMES_SEARCHED,
         NEXT_PAGE,PREV_PAGE,HANDLE_NUMBER} from './actionTypes'
 import axios from 'axios';
 
@@ -96,6 +96,12 @@ export const orderVideogamebyRating = (order) => {
 export function resetVideogames() {
     return {
         type: RESET_VIDEOGAMES,
+    };
+}
+
+export function resetVideogamesSearched() {
+    return {
+        type: RESET_VIDEOGAMES_SEARCHED,
     };
 }
 

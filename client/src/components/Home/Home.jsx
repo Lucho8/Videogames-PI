@@ -4,11 +4,11 @@ import Videogame from '../Videogame/Videogame'
 import NavBar from '../NavBar/NavBar';
 import Paginate from '../Paginate/Paginate';
 import { useSelector,useDispatch } from 'react-redux';
-import { orderVideogamebyName,filterVideogameBySource,filterVideogameByGenre,handleNumber,orderVideogamebyRating} from '../../redux/actions';
+import { orderVideogamebyName,filterVideogameBySource,filterVideogameByGenre,handleNumber,orderVideogamebyRating,resetVideogames,resetVideogamesSearched} from '../../redux/actions';
 
 const Home = ({onSearch}) => {
 
-    const {Videogames,genres} = useSelector(state => state);
+    const {Videogames,genres,searchedVideogames} = useSelector(state => state);
     const { numPage } = useSelector((state) => state);
     const dispatch = useDispatch()
 
@@ -36,6 +36,7 @@ const Home = ({onSearch}) => {
 
     const handleGenre = (event) => {
         dispatch(filterVideogameByGenre(event.target.value))
+        console.log(event.target.value);
         dispatch(handleNumber(1))
     }
 
@@ -43,6 +44,14 @@ const Home = ({onSearch}) => {
         dispatch(orderVideogamebyRating(event.target.value))
         dispatch(handleNumber(1))
     }
+
+    const handleResetFilters = () => {
+        document.getElementById("source").selectedIndex = 0;
+        document.getElementById("orderByNAme").selectedIndex = 0;
+        document.getElementById("orderByRating").selectedIndex = 0;
+        document.getElementById("genre").selectedIndex = 0;
+        searchedVideogames.length > 0 ? dispatch(resetVideogamesSearched()) : dispatch(resetVideogames())
+        };
 
     return (
             <div>
@@ -86,6 +95,7 @@ const Home = ({onSearch}) => {
                         ))}
                         </select>
                     </div>
+                        <button className={styles.button} onClick={handleResetFilters}>Reset Filters</button>
                     </div>
 
                 <div className={styles.container}>

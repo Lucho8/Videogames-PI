@@ -1,5 +1,5 @@
 import {GET_ALL_VIDEOGAMES,GET_VIDEOGAME_BY_NAME,RESET_VIDEOGAMES,GET_ALL_GENRES,GET_VIDEOGAME_SOURCE,GET_VIDEOGAME_BY_GENRE,ORDER_VIDEOGAME_BY_NAME,
-        ORDER_VIDEOGAME_BY_RATING,POST_VIDEOGAME,
+        ORDER_VIDEOGAME_BY_RATING,POST_VIDEOGAME,RESET_VIDEOGAMES_SEARCHED,
         NEXT_PAGE,PREV_PAGE,HANDLE_NUMBER} from './actionTypes'
 
 const initialState = {
@@ -36,17 +36,24 @@ const reducer = (state=initialState,{ type, payload }) => {
             Videogames: [...state.allVideogames],
             searchedVideogames:[]
         };
+
+        case RESET_VIDEOGAMES_SEARCHED:
+            return{
+                ...state,
+                Videogames: [...state.searchedVideogames],
+            }
+            
         case GET_VIDEOGAME_SOURCE:
             let sourceVideogamesFiltered
 
             if(state.searchedVideogames.length === 0){
                 if( payload === 'API' )  sourceVideogamesFiltered = state.allVideogames.filter(videogame => videogame.created === false )
-                else if(payload==='DB')  sourceVideogamesFiltered = state.allVideogames.filter(videogame => videogame.created === true)
+                else if(payload ==='DB')  sourceVideogamesFiltered = state.allVideogames.filter(videogame => videogame.created === true)
                 else sourceVideogamesFiltered = [...state.allVideogames]
             } else {
-                if( payload === 'API' )  sourceVideogamesFiltered = state.allVideogames.filter(videogame => videogame.created === false )
-                else if(payload==='DB')  sourceVideogamesFiltered = state.allVideogames.filter(videogame => videogame.created === true)
-                else sourceVideogamesFiltered = [...state.allVideogames]
+                if( payload === 'API' )  sourceVideogamesFiltered = state.searchedVideogames.filter(videogame => videogame.created === false )
+                else if(payload ==='DB')  sourceVideogamesFiltered = state.searchedVideogames.filter(videogame => videogame.created === true)
+                else sourceVideogamesFiltered = [...state.searchedVideogames]
             }
             return {
                 ...state,
@@ -55,24 +62,24 @@ const reducer = (state=initialState,{ type, payload }) => {
             }
 
         case GET_VIDEOGAME_BY_GENRE:
-            let genreVideogamesFiltered
+            let genreVideogamesFiltered = []
 
             if(state.searchedVideogames.length === 0 && state.location === 'BOTH'){
                 genreVideogamesFiltered = state.allVideogames.filter(videogame => videogame.genres.includes(payload));
             } else if (state.location === 'BOTH'){
-                genreVideogamesFiltered = state.searchedVideogames.filter(videogame => videogame.genres.includes(payload));
+                genreVideogamesFiltered = state.searchedVideogames.filter(videogame => videogame.genres?.includes(payload));
             }
 
             if(state.searchedVideogames.length === 0 && state.location === 'API'){
                 genreVideogamesFiltered = state.allVideogames.filter(videogame => videogame.genres.includes(payload) && videogame.created === false );
             } else if (state.location === 'API'){
-                genreVideogamesFiltered = state.searchedVideogames.filter(videogame => videogame.genres.includes(payload) && videogame.created === false);
+                genreVideogamesFiltered = state.searchedVideogames.filter(videogame => videogame.genres?.includes(payload) && videogame.created === false);
             }
 
             if(state.searchedVideogames.length === 0 && state.location === 'DB'){
                 genreVideogamesFiltered = state.allVideogames.filter(videogame => videogame.genres.includes(payload) && videogame.created === true);
             } else if (state.location === 'DB'){
-                genreVideogamesFiltered = state.searchedVideogames.filter(videogame => videogame.genres.includes(payload) && videogame.created === true);
+                genreVideogamesFiltered = state.searchedVideogames.filter(videogame => videogame.genres?.includes(payload) && videogame.created === true);
             }
 
             return {

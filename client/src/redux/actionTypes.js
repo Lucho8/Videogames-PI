@@ -11,8 +11,9 @@ export const ORDER_VIDEOGAME_BY_RATING = 'ORDER_VIDEOGAME_BY_RATING'
 ///Get Genres
 export const GET_ALL_GENRES = 'GET_ALL_GENRES'
 
-///Reset allVideogames
-export const RESET_VIDEOGAMES = "RESET_RESET_VIDEOGAMES"
+///Reset Videogames
+export const RESET_VIDEOGAMES = "RESET_VIDEOGAMES"
+export const RESET_VIDEOGAMES_SEARCHED = "RESET_VIDEOGAMES_SEARCHED"
 ///Handle Paginate
 export const HANDLE_NUMBER = 'HANDLE_NUMBER'
 export const NEXT_PAGE = "NEXT_PAGE"

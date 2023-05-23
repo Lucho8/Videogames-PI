@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Detail.module.css"
-import { useParams } from "react-router-dom";
 import axios from "axios";
-import { NavLink } from "react-router-dom";
+import { NavLink,useParams,useNavigate } from "react-router-dom";
 
 const Detail = () => {
     const { id } = useParams();
     const [videogameDetail, setVideogameDetail] = useState({});
+    const navigate = useNavigate()
 
-    useEffect(()=>{
-        const fetchData  = async () => {
-            try {
-                const { data } = await axios(`http://localhost:3001/videogames/${id}`);
-                if (data.name) {
-                    setVideogameDetail(data);
-                } else {
-                    window.alert('There is no videogame with that ID');
-                }
-            } catch (error) {
-                console.log(error);
-                }
-        }
-        fetchData ();
-        return setVideogameDetail({})
-    },[id])
+    useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const { data } = await axios(`http://localhost:3001/videogames/${id}`);
+              if (data.name) {
+                  setVideogameDetail(data);
+              }
+          } catch (error) {
+              window.alert('There is no videogame with that ID');
+              navigate('/home');
+          }
+      };
+  
+      fetchData();
+  
+      return () => setVideogameDetail({});
+  }, [id, navigate]);
 
 
 
