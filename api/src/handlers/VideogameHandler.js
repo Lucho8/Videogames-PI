@@ -124,7 +124,7 @@ const getVideogameByName = async (name) => {
     const databaseVideogames = await Videogame.findAll({
         where: {
             name: {
-                [Op.like]: `%${name}%`
+                [Op.iLike]: `%${name}%`
             }
         },
         limit: 15

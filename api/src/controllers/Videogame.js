@@ -7,18 +7,21 @@ async function getAllVideogames(req, res) {
     try {
         res.status(200).json(result)
     } catch (error) {
-        res.status(404).send(error.message);
+        res.status(404).json({error:error.message});
     }
     }
 
 const getVideogameByid = async (req,res) => {
     const {id} = req.params
     const source = isNaN(id) ? 'bdd' : 'api'
+
+    if (!id) throw Error ('an ID is necesarry to view de Detail')
+
     try {
         const VideogameById = await getGameByid(id,source)
         res.status(200).json(VideogameById)
     } catch (error) {
-        res.status(400).send(error.message)
+        res.status(400).json({error:error.message})
     }
 }
 
@@ -28,7 +31,7 @@ const postVideogame = async (req,res) => {
         const newVideogame = await createVideogame(name,description,platforms,image,releaseDate,rating,genres)
         res.status(201).json(newVideogame)
     } catch (error) {
-        res.status(400).send({error:error.message})
+        res.status(400).json({error:error.message})
     }
 }
 
