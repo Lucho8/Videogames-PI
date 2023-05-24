@@ -103,7 +103,7 @@ const getAllgames = async () => {
     });
 
     const pageSize = 40; // Cantidad de resultados por página
-    const totalPages = 3; // Cantidad total de páginas que quieres obtener (en este caso, 5 páginas con 20 resultados cada una)
+    const totalPages = 3; // Cantidad total de páginas que quieres obtener 
 
     const apiVideogamesRaw = [];
 
