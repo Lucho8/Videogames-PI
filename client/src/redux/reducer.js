@@ -88,20 +88,8 @@ const reducer = (state=initialState,{ type, payload }) => {
             }
         case ORDER_VIDEOGAME_BY_NAME:
             const orderVideogamesbyNameCopy = [...state.Videogames];
-            // let toReturn 
-            // if (payload === 'R'){
-            //     toReturn = [...state.allVideogames]
-            // } 
-            // if (payload === 'A'){
-            //     toReturn = allVideogamesCopy.sort((a, b) => a.name.localeCompare(b.name))
-            // } 
-
-            // if (payload === 'D'){
-            //     toReturn = allVideogamesCopy.sort((a, b) => b.name.localeCompare(a.name))
-            // } 
             return {
                 ...state,
-                //Videogames:toReturn
                 Videogames: payload === 'A'
                 ? orderVideogamesbyNameCopy.sort((a, b) => a.name.localeCompare(b.name))
                 : orderVideogamesbyNameCopy.sort((a, b) => b.name.localeCompare(a.name))

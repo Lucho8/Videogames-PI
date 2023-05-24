@@ -17,7 +17,7 @@
 
 .title {
   font-size: 24px;
-  color: #333;
+  color: white;
 }
 
 .image {
@@ -28,16 +28,17 @@
 }
 
 .descriptionContainer {
-  background-color: #fff;
+  background-color: #352f44;
   padding: 20px;
   margin-top: 20px;
   border-radius: 8px;
+  color: #dbd8e3;
 }
 
 .sectionTitle {
   font-size: 20px;
   font-weight: bold;
-  color: #333;
+  color: #dbd8e3;
 }
 
 .infoContainer {
@@ -46,6 +47,7 @@
   justify-content: center;
   gap: 20px;
   margin-top: 20px;
+  color: #dbd8e3;
 }
 
 .infoItem {
@@ -53,8 +55,9 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  background-color: #fff;
+  background-color: #352f44;
   border-radius: 8px;
+  color: #dbd8e3;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   line-height: 1;
   width: 354px;

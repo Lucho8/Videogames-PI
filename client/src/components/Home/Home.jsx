@@ -15,8 +15,8 @@ const Home = ({onSearch}) => {
     let desde = (numPage - 1) * 15; 
     let hasta = numPage * 15; 
 
-    let cantPages = Math.round(Videogames.length/15);
-
+    let cantPages = Math.floor(Videogames.length/15);
+    console.log(Videogames);
     let viewVideogames = Videogames?.slice(desde, hasta);
 
     const [aux,setAux] = useState(false)

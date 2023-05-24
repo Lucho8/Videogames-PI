@@ -1,5 +1,5 @@
 import styles from './Form.module.css'
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import { validateField ,validateForm} from './Validations';
 import { postVideogame, getAllVideogames,handleNumber} from '../../redux/actions';
@@ -29,7 +29,9 @@ const Form = () => {
         rating: '',
         genres: ""
         });
-    
+        
+        const [resetFields, setResetFields] = useState(false);
+
         const handleChange = (event) => {
             const { name, value } = event.target;
             const error = validateField(name, value);
@@ -45,14 +47,14 @@ const Form = () => {
     
         const handleCheckboxChange = (event) => {
             const { name, checked } = event.target;
-                // Realizar las validaciones directamente
+
                 let errorMessage = "";
                 if (name === "platforms" && !checked && game.platforms.length === 1) {
                 errorMessage = "At least one platform must be selected.";
                 } else if (name === "genres" && !checked && game.genres.length === 1) {
                 errorMessage = "At least one genre must be selected.";
                 }
-                // Actualizar el estado de `game`
+
                 setGame((prevGame) => {
                 if (checked) {
                     return {
@@ -66,20 +68,35 @@ const Form = () => {
                     };
                 }
                 });
-            
-                // Actualizar el estado de `errors`
+
                 setErrors((prevErrors) => ({
                 ...prevErrors,
                 [name]: errorMessage
                 }));
             };
+
+            useEffect(() => {
+                if (resetFields) {
+                setGame({
+                    name: '',
+                    description: '',
+                    image: '',
+                    releaseDate: '',
+                    rating: '',
+                    platforms: [],
+                    genres: []
+                    });
+                    setResetFields(false);
+                }
+            }, [resetFields]);
+        
     
         const handleSubmit = (event) => {
         event.preventDefault();
         if (validateForm(game,setErrors)) {
             dispatch(postVideogame(game))
-            console.log(game);
             alert('Videogame created!')
+            setResetFields(true);
         } else {
             console.log(errors);
         }
@@ -88,59 +105,54 @@ const Form = () => {
         return (
                 <div className={styles.container}>
                     <form onSubmit={handleSubmit} className={styles.formContainer}>
-                <NavLink to="/home">
-                    <button
-                    onClick={() => {
-                        dispatch(getAllVideogames());
-                        dispatch(handleNumber(1));
-                    }}
-                    className={styles.button}
-                    >
-                    Home
-                    </button>
-                </NavLink>
+                        <NavLink to="/home" >
+                            <button className={styles.button} onClick={
+                            () => { dispatch(getAllVideogames());
+                                    dispatch(handleNumber(1));}
+                            }> Home </button>
+                        </NavLink>
             
                 <div>
-                    <label htmlFor="name">Name:</label>
+                    <label className={styles.label} htmlFor="name">Name:</label>
                     <input type="text" name="name" value={game.name} onChange={handleChange} className={styles.input} />
                     {errors.name && <span className={styles.error}>{errors.name}</span>}
                 </div>
             
                 <div>
-                    <label htmlFor="description">Description:</label>
+                    <label className={styles.label} htmlFor="description">Description:</label>
                     <textarea name="description" value={game.description} onChange={handleChange} className={styles.input}></textarea>
                     {errors.description && <span className={styles.error}>{errors.description}</span>}
                 </div>
                     
                 <div>
-                    <label htmlFor="image">Image:</label>
+                    <label className={styles.label} htmlFor="image">Image:</label>
                     <input type="text" name="image" value={game.image} onChange={handleChange} className={styles.input} />
                     {errors.image && <span className={styles.error}>{errors.image}</span>}
                 </div>
             
                 <div>
-                    <label htmlFor="releaseDate">Release Date:</label>
+                    <label className={styles.label} htmlFor="releaseDate">Release Date:</label>
                     <input
-                    type="text"
-                    name="releaseDate"
-                    value={game.releaseDate}
-                    onChange={handleChange}
-                    className={styles.input}
+                        type="date"
+                        name="releaseDate"
+                        value={game.releaseDate}
+                        onChange={handleChange}
+                        className={styles.input}
                     />
                     {errors.releaseDate && <span className={styles.error}>{errors.releaseDate}</span>}
-                </div>
+                    </div>
             
                 <div>
-                    <label htmlFor="rating">Rating:</label>
+                    <label className={styles.label} htmlFor="rating">Rating:</label>
                     <input type="text" name="rating" value={game.rating} onChange={handleChange} className={styles.input} />
                     {errors.rating && <span className={styles.error}>{errors.rating}</span>}
                 </div>
             
                 <div className={styles.checkboxGroup}>
-                    <label htmlFor="platforms">Platforms:</label>
+                    <label className={styles.label} htmlFor="platforms">Platforms:</label>
                     <div className={styles.checkboxContainer}>
                     {platforms.map((platform) => (
-                        <label key={platform}>
+                        <label className={styles.label} key={platform}>
                         <input
                             type="checkbox"
                             name="platforms"
@@ -157,10 +169,10 @@ const Form = () => {
                 </div>
             
                 <div className={styles.checkboxGroup}>
-                    <label htmlFor="genres">Genres:</label>
+                    <label className={styles.label} htmlFor="genres">Genres:</label>
                     <div className={styles.checkboxContainer}>
                     {genres.map((genre) => (
-                        <label key={genre.name}>
+                        <label className={styles.label} key={genre.name}>
                         <input
                             type="checkbox"
                             name="genres"
@@ -176,7 +188,8 @@ const Form = () => {
                     {errors.genres && <span className={styles.error}> {errors.genres}</span>}
                 </div>
             
-                <button type="submit" className={styles.button}>Create Game</button>
+                <button type="submit" className={styles.button}  >Create Game</button>
+
                 </form>
                 </div>
             );

@@ -1,13 +1,95 @@
 
 .background {
-    background-image: url('../../../public/Sekiro.jpg');
+    background-image: url('../../../public/Other.gif');
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
-    background-size: cover;
+    background-size:cover;
     height: 100vh;
     width: 100vw;
     overflow-y: hidden;
     overflow-x: hidden;
     overflow: hidden;
     }
+
+.container {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    line-height: 1.6;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(47, 43, 45, 0.4);
+    border-radius: 10px;
+    padding: 20px;
+    backdrop-filter: blur(3px); 
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+        .showcase {
+            height: 200px;
+        }
+        
+        .showcase h1 {
+            font-size: 50px;
+            line-height: 1.3;
+            position: relative;
+            animation: heading 3s forwards;
+            color: white;
+        }
+        
+        @keyframes heading {
+            0% {
+            top: -50px;
+            }
+            100% {
+            top: 0px;
+            }
+        }
+        
+        .content {
+            position: relative;
+            animation: content 3s forwards;
+        }
+        
+        @keyframes content {
+            0% {
+            left: -1000px;
+            }
+            100% {
+            left: 0px;
+            }
+        }
+        
+        .btn {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border: white 1px solid;
+            border-radius: 30%;
+            margin-top: 40px;
+            opacity: 0;
+            animation: btn 3s forwards 3s;
+            transition-property: transform;
+            transition-duration: 1s;
+        }
+        
+        .btn:hover {
+            transform: rotateY(360deg);
+        }
+        
+        @keyframes btn {
+            0% {
+            opacity: 0;
+            }
+            100% {
+            opacity: 1;
+            }
+        }
