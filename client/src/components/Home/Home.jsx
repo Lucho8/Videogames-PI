@@ -4,13 +4,15 @@ import Videogame from '../Videogame/Videogame'
 import NavBar from '../NavBar/NavBar';
 import Paginate from '../Paginate/Paginate';
 import { useSelector,useDispatch } from 'react-redux';
-import { orderVideogamebyName,filterVideogameBySource,filterVideogameByGenre,handleNumber,orderVideogamebyRating,resetVideogames,resetVideogamesSearched} from '../../redux/actions';
+import { orderVideogamebyName,filterVideogameBySource,filterVideogameByGenre,handleNumber,orderVideogamebyRating,resetVideogames,resetVideogamesSearched,filtereVideogameByPlatform} from '../../redux/actions';
 
 const Home = ({onSearch}) => {
 
     const {Videogames,genres,searchedVideogames} = useSelector(state => state);
     const { numPage } = useSelector((state) => state);
     const dispatch = useDispatch()
+    const platforms = ['PC', 'Linux', 'PS4', 'PS5', 'Xbox ONE', 'Xbox ONE X', 'Nintendo Switch'];
+
 
     let desde = (numPage - 1) * 15; 
     let hasta = numPage * 15; 
@@ -36,12 +38,16 @@ const Home = ({onSearch}) => {
 
     const handleGenre = (event) => {
         dispatch(filterVideogameByGenre(event.target.value))
-        console.log(event.target.value);
         dispatch(handleNumber(1))
     }
 
     const handleOrderByRating=(event) => {
         dispatch(orderVideogamebyRating(event.target.value))
+        dispatch(handleNumber(1))
+    }
+    
+    const handlePlatform=(event)=>{
+        dispatch(filtereVideogameByPlatform(event.target.value))
         dispatch(handleNumber(1))
     }
 
@@ -95,6 +101,18 @@ const Home = ({onSearch}) => {
                         ))}
                         </select>
                     </div>
+
+                    <div className={styles.selectContainer}>
+                        <label htmlFor="platforms">Filter by platform</label>
+                        <select name="platform" id="platform" onChange={handlePlatform}>
+                        <option value="" disabled selected>...</option>
+                        {platforms.map(platform => (
+                            <option value={platform} key={platform}>{platform}</option>
+                        ))}
+                        </select>
+                    </div>
+
+
                         <button className={styles.button} onClick={handleResetFilters}>Reset Filters</button>
                     </div>
 

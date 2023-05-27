@@ -1,5 +1,5 @@
 import {GET_ALL_VIDEOGAMES,GET_VIDEOGAME_BY_NAME,RESET_VIDEOGAMES,GET_ALL_GENRES,GET_VIDEOGAME_SOURCE,GET_VIDEOGAME_BY_GENRE,ORDER_VIDEOGAME_BY_NAME,
-        ORDER_VIDEOGAME_BY_RATING,POST_VIDEOGAME,RESET_VIDEOGAMES_SEARCHED,
+        ORDER_VIDEOGAME_BY_RATING,POST_VIDEOGAME,RESET_VIDEOGAMES_SEARCHED,GET_VIDEOGAME_BY_PLATFORM,
         NEXT_PAGE,PREV_PAGE,HANDLE_NUMBER} from './actionTypes'
 import axios from 'axios';
 
@@ -72,13 +72,17 @@ export const postVideogame = (game) => {
             payload: data,
             });
         } catch (error) {
-            return alert('Error creating the Videogame!')
+            return alert('Error creating the videogame!')
         }
     }
 }
 
 export const filterVideogameBySource = (Source) => {
     return { type:GET_VIDEOGAME_SOURCE , payload:Source}
+}
+
+export const filtereVideogameByPlatform = (Platform) => {
+    return { type: GET_VIDEOGAME_BY_PLATFORM , payload:Platform}
 }
 
 export const filterVideogameByGenre = (Genre) => {

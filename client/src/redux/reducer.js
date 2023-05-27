@@ -1,5 +1,5 @@
 import {GET_ALL_VIDEOGAMES,GET_VIDEOGAME_BY_NAME,RESET_VIDEOGAMES,GET_ALL_GENRES,GET_VIDEOGAME_SOURCE,GET_VIDEOGAME_BY_GENRE,ORDER_VIDEOGAME_BY_NAME,
-        ORDER_VIDEOGAME_BY_RATING,POST_VIDEOGAME,RESET_VIDEOGAMES_SEARCHED,
+        ORDER_VIDEOGAME_BY_RATING,POST_VIDEOGAME,RESET_VIDEOGAMES_SEARCHED,GET_VIDEOGAME_BY_PLATFORM,
         NEXT_PAGE,PREV_PAGE,HANDLE_NUMBER} from './actionTypes'
 
 const initialState = {
@@ -86,6 +86,33 @@ const reducer = (state=initialState,{ type, payload }) => {
                 ...state,
                 Videogames: genreVideogamesFiltered
             }
+
+        case GET_VIDEOGAME_BY_PLATFORM:
+            let platformVideogamesFiltered = []
+
+            if(state.searchedVideogames.length === 0 && state.location === 'BOTH'){
+                platformVideogamesFiltered = state.allVideogames.filter(videogame => videogame.platforms.includes(payload));
+            } else if (state.location === 'BOTH'){
+                platformVideogamesFiltered = state.searchedVideogames.filter(videogame => videogame.platforms?.includes(payload));
+            }
+
+            if(state.searchedVideogames.length === 0 && state.location === 'API'){
+                platformVideogamesFiltered = state.allVideogames.filter(videogame => videogame.platforms.includes(payload) && videogame.created === false );
+            } else if (state.location === 'API'){
+                platformVideogamesFiltered = state.searchedVideogames.filter(videogame => videogame.platforms?.includes(payload) && videogame.created === false);
+            }
+
+            if(state.searchedVideogames.length === 0 && state.location === 'DB'){
+                platformVideogamesFiltered = state.allVideogames.filter(videogame => videogame.platforms.includes(payload) && videogame.created === true);
+            } else if (state.location === 'DB'){
+                platformVideogamesFiltered = state.searchedVideogames.filter(videogame => videogame.platforms?.includes(payload) && videogame.created === true);
+            }
+
+            return {
+                ...state,
+                Videogames: platformVideogamesFiltered
+            }
+
         case ORDER_VIDEOGAME_BY_NAME:
             const orderVideogamesbyNameCopy = [...state.Videogames];
             return {
